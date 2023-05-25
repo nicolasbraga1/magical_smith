@@ -7,4 +7,9 @@ async function create(req: Request, res: Response) {
   res.status(201).json(product);
 }
 
-export default { create };
+async function get(_req: Request, res: Response) {
+  const products = await productServices.get();
+  res.status(200).json(products);
+}
+
+export default { create, get };
