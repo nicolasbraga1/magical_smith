@@ -6,7 +6,7 @@ async function login(req: Request, res: Response): Promise<Response> {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res.status(422).json({ message: '"username" and "password" are required' });
+    return res.status(400).json({ message: '"username" and "password" are required' });
   }
 
   const serviceResponse = await loginServices.login(username, password);
