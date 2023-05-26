@@ -15,7 +15,7 @@ async function login(req: Request, res: Response): Promise<Response> {
     return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
   const token = jwt.sign(username);
-  return res.status(200).json(token);
+  return res.status(200).json({ token });
 }
 
 export default {
