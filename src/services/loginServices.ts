@@ -1,15 +1,16 @@
 import bcrypt from 'bcryptjs';
-import jwt from '../util/jwt';
 import { ServiceResponse } from '../types/ServiceResponse';
-import UserModel from '../database/models/user.model';
+import UserModel, { UserSequelizeModel } from '../database/models/user.model';
 
-async function login(username: string, password: string): Promise<ServiceResponse<string>> {
-  const user = await UserModel.findOne({ where: { username } });
+async function login(username: string, password: string):
+Promise<ServiceResponse<UserSequelizeModel>> {
+  const user: UserSequelizeModel | null = await UserModel.findOne({ where: { username } });
+  let serviceResponse: ServiceResponse<UserSequelizeModel>;
   if (!user || !bcrypt.compareSync(password, user.dataValues.password)) {
-    return { status: 'UNAUTHORIZED', data: { message: 'Username or password invalid' } };
+    serviceResponse = { status: 'UNAUTHORIZED', data: { message: 'Username or password invalid' } };
+    return serviceResponse;
   }
-  const token = jwt.sign({ id: user.dataValues.id, user: user.dataValues.username });
-  return { status: 'SUCCESSFUL', data: token };
+  return { status: 'SUCCESSFUL', data: user };
 }
 
 export default { login };

@@ -1,17 +1,9 @@
-import { ServiceResponseErrorType, ServiceResponseSuccessType } from '../types/ServiceResponse';
-
-function mapStatusHTTP(
-  type: ServiceResponseErrorType | ServiceResponseSuccessType,
-): number {
-  const statusHTTPMap: Record<ServiceResponseErrorType | ServiceResponseSuccessType, number> = {
-    INVALID_DATA: 400,
+export default (status: string): number => {
+  const mapStatus: Record<string, number> = {
     UNAUTHORIZED: 401,
     NOT_FOUND: 404,
-    SUCCESSFUL: 200,
-    CREATED: 202,
+    INVALID_DATA: 400,
   };
 
-  return statusHTTPMap[type] || 500;
-}
-
-export default mapStatusHTTP;
+  return mapStatus[status];
+};
